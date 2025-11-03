@@ -4,10 +4,10 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineNuxtConfig({
-  devServer: {
-    host: '0.0.0.0',
-    port: 3000
-  },
+  // devServer: {
+  //   host: '0.0.0.0',
+  //   port: 3000
+  // },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/css/global.css'],
