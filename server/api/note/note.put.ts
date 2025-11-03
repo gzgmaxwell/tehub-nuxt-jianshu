@@ -3,7 +3,7 @@ import { getDB } from '../../utils/db/mysql'
 import { getLoginUid, responseJson } from '../../utils/helper'
 
 /***
- * 删除文集
+ * 修改文章
  */
 export default defineEventHandler(async event => {
   // 获取用户id，判断是否登录
@@ -18,7 +18,10 @@ export default defineEventHandler(async event => {
   const body = await readBody(event)
   // 数据校验
   const schema = Joi.object({
-    id: Joi.number().required()
+    noteId: Joi.number().required(),
+    title: Joi.string().allow(''),
+    content_md: Joi.string().allow(''),
+    state: Joi.number().required()
   })
 
   try {
@@ -29,15 +32,16 @@ export default defineEventHandler(async event => {
 
   const con = getDB()
   try {
-    //删除文集
+    // 创建文章
     const [rows] = await con.execute(
-      'DELETE FROM `notebooks` WHERE `id`=? AND `uid`=?',
-      [body.id, uid]
+      'UPDATE  `notes` SET `title`=?,`content_md`=?,`state`=? WHERE `id`=? AND `uid`=?',
+      [body.title, body.content_md, body.state, body.noteId, uid]
     )
     // 释放连接
     await con.end()
+
     if (rows.affectedRows === 0) {
-      return responseJson(1, '删除失败', {})
+      return responseJson(1, '修改失败', {})
     }
 
     return responseJson(0, 'ok', {})

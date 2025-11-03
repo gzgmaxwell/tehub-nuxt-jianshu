@@ -1,9 +1,9 @@
 import Joi from 'joi'
 import { getDB } from '../../utils/db/mysql'
-import { getLoginUid, responseJson } from '../../utils/helper'
+import { getLoginUid, responseJson, genTitle } from '../../utils/helper'
 
 /***
- * 删除文集
+ * 创建文章
  */
 export default defineEventHandler(async event => {
   // 获取用户id，判断是否登录
@@ -18,7 +18,7 @@ export default defineEventHandler(async event => {
   const body = await readBody(event)
   // 数据校验
   const schema = Joi.object({
-    id: Joi.number().required()
+    notebookId: Joi.number().required()
   })
 
   try {
@@ -29,15 +29,23 @@ export default defineEventHandler(async event => {
 
   const con = getDB()
   try {
-    //删除文集
+    // 创建文章
     const [rows] = await con.execute(
-      'DELETE FROM `notebooks` WHERE `id`=? AND `uid`=?',
-      [body.id, uid]
+      'INSERT INTO `notes` (`title`,`content_md`,`state`,`uid`) VALUE (?,?,?,?)',
+      [genTitle(), '', 1, uid]
     )
+    console.log('333333', rows)
+
+    // 关联文集表
+    const [rows2] = await con.execute(
+      'INSERT INTO `notebook_notes` (`notebook_id`,`note_id`) VALUE (?,?)',
+      [body.notebookId, rows.insertId]
+    )
+
     // 释放连接
     await con.end()
     if (rows.affectedRows === 0) {
-      return responseJson(1, '删除失败', {})
+      return responseJson(1, '创建失败', {})
     }
 
     return responseJson(0, 'ok', {})

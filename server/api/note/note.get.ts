@@ -3,7 +3,7 @@ import { getDB } from '../../utils/db/mysql'
 import { getLoginUid, responseJson } from '../../utils/helper'
 
 /***
- * 删除文集
+ * 获取文集
  */
 export default defineEventHandler(async event => {
   // 获取用户id，判断是否登录
@@ -15,32 +15,34 @@ export default defineEventHandler(async event => {
   }
 
   // 获取数据
-  const body = await readBody(event)
-  // 数据校验
+  const params = await getQuery(event)
+  console.log('params', params)
+  // 校验数据joi
   const schema = Joi.object({
-    id: Joi.number().required()
+    noteId: Joi.number().required()
   })
-
   try {
-    const value = await schema.validateAsync(body)
+    const value = await schema.validateAsync(params)
   } catch (err) {
     return responseJson(1, '参数错误', {})
   }
 
   const con = getDB()
   try {
-    //删除文集
-    const [rows] = await con.execute(
-      'DELETE FROM `notebooks` WHERE `id`=? AND `uid`=?',
-      [body.id, uid]
+    //获取用户文集
+    const [rows] = await con.query(
+      'SELECT * FROM `notes` WHERE `uid`=? AND `id`=?',
+      [uid, params.noteId]
     )
     // 释放连接
     await con.end()
-    if (rows.affectedRows === 0) {
-      return responseJson(1, '删除失败', {})
-    }
 
-    return responseJson(0, 'ok', {})
+    return responseJson(0, 'ok', {
+      id: rows[0].id,
+      title: rows[0].title,
+      content_md: rows[0].content_md,
+      state: rows[0].state
+    })
   } catch (e) {
     // 释放连接
     await con.end()

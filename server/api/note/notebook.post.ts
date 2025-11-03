@@ -6,7 +6,7 @@ import { getLoginUid, responseJson } from '../../utils/helper'
  * 创建文集
  */
 export default defineEventHandler(async event => {
-  //获取用户id，判断是否登录
+  // 获取用户id，判断是否登录
   let uid = getLoginUid(event)
   if (uid === 0) {
     // @ts-ignore
@@ -14,7 +14,7 @@ export default defineEventHandler(async event => {
     return responseJson(1, '请先登录', {})
   }
 
-  //获取数据
+  // 获取数据
   const body = await readBody(event)
   // 数据校验
   const schema = Joi.object({

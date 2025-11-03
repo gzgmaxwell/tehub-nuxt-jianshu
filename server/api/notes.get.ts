@@ -2,13 +2,20 @@ import { getDB } from '../utils/db/mysql'
 import { responseJson } from '../utils/helper'
 
 /***
- * 获取所有文集
+ * 文章
  */
 export default defineEventHandler(async event => {
+  // 获取数据
+  const params = await getQuery(event)
+
   const con = getDB()
   try {
-    //获取用户文集
-    const [rows] = await con.execute('SELECT * FROM `notebooks`')
+    // 获取文章
+    const [rows] = await con.query('SELECT * FROM `notes` LIMIT ? OFFSET ?', [
+      Number(params.pageSize),
+      (Number(params.page) - 1) * Number(params.pageSize)
+    ])
+
     // 释放连接
     await con.end()
 

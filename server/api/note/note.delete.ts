@@ -18,7 +18,7 @@ export default defineEventHandler(async event => {
   const body = await readBody(event)
   // 数据校验
   const schema = Joi.object({
-    id: Joi.number().required()
+    noteId: Joi.number().required()
   })
 
   try {
@@ -29,10 +29,10 @@ export default defineEventHandler(async event => {
 
   const con = getDB()
   try {
-    //删除文集
+    // 删除文集
     const [rows] = await con.execute(
-      'DELETE FROM `notebooks` WHERE `id`=? AND `uid`=?',
-      [body.id, uid]
+      'DELETE FROM `notes` WHERE `id`=? AND `uid`=?',
+      [body.noteId, uid]
     )
     // 释放连接
     await con.end()

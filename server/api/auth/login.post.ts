@@ -14,7 +14,7 @@ import jwt from 'jsonwebtoken'
  * 4、如果已经注册，并且密码正确，就生成token，并返回给客户端，token根据jwt生成
  */
 export default defineEventHandler(async event => {
-  //获取数据
+  // 获取数据
   const body = await readBody(event)
   console.log('11111', body)
 
