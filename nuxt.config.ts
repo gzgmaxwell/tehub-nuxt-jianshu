@@ -8,6 +8,20 @@ export default defineNuxtConfig({
   //   host: '0.0.0.0',
   //   port: 3000
   // },
+  runtimeConfig: {
+    // 私密
+    SecretId: process.env.SECRET_ID,
+    SecretKey: process.env.SECRET_KEY,
+    DB_HOST: process.env.DB_HOST,
+    DB_USER: process.env.DB_USER,
+    DB_DATABASE: process.env.DB_DATABASE,
+    DB_PASSWORD: process.env.DB_PASSWORD,
+    public: {
+      // 公开
+      BUCKET: process.env.BUCKET,
+      REGION: process.env.REGION
+    }
+  },
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
   css: ['~/assets/css/global.css'],

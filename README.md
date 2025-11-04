@@ -20,3 +20,6 @@ npm run build
 
 npm run preview
 ```
+
+## 关联文档
+[腾讯云对象存储](https://cloud.tencent.com/document/product/436/8629)
