@@ -11,6 +11,12 @@
     <div>counter:{{ counter }}</div>
     <div>doubleCounter:{{ doubleCounter }}</div>
     <a-button type="primary" @click="() => myStore.add()">增加</a-button>
+    <div>
+      图标展示
+      <i-ep-aim />
+      <i-ant-design-coffee-outlined />
+      <i-mdi-ambulance />
+    </div>
   </div>
 </template>
 

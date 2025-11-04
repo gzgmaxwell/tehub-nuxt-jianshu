@@ -2,6 +2,8 @@
 
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import IconsResolver from 'unplugin-icons/resolver'
+import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
   // devServer: {
@@ -31,15 +33,27 @@ export default defineNuxtConfig({
         resolvers: [
           AntDesignVueResolver({
             importStyle: false // css in js
+          }),
+          IconsResolver({
+            prefix: 'i',
+            enabledCollections: ['ep', 'ant-design', 'mdi', 'ph', 'ion'],
+            strict: true
           })
         ]
+      }),
+      Icons({
+        autoInstall: true
       })
     ],
     ssr: {
       noExternal: ['ant-design-vue']
     }
   },
-  modules: ['@pinia/nuxt', '@pinia-plugin-persistedstate/nuxt'],
+  modules: [
+    '@pinia/nuxt',
+    '@pinia-plugin-persistedstate/nuxt',
+    'unplugin-icons/nuxt'
+  ],
   fonts: {
     providers: {
       google: false,
