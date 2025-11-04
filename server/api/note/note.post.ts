@@ -34,6 +34,10 @@ export default defineEventHandler(async event => {
       'INSERT INTO `notes` (`title`,`content_md`,`state`,`uid`) VALUE (?,?,?,?)',
       [genTitle(), '', 1, uid]
     )
+
+    if (rows.affectedRows === 0) {
+      return responseJson(1, '创建失败', {})
+    }
     console.log('333333', rows)
 
     // 关联文集表

@@ -14,6 +14,7 @@ export const genTitle = () => {
   let currentDate = new Date()
   let year = currentDate.getFullYear()
   let month = ('0' + (currentDate.getMonth() + 1)).slice(-2)
-  let day = ('0' + currentDate.getDay()).slice(-2)
+  // getDay 获取星期几
+  let day = ('0' + currentDate.getDate()).slice(-2)
   return year + '-' + month + '-' + day
 }

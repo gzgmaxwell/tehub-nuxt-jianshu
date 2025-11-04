@@ -38,10 +38,12 @@ export default defineEventHandler(async event => {
     await con.end()
 
     return responseJson(0, 'ok', {
-      id: rows[0].id,
-      title: rows[0].title,
-      content_md: rows[0].content_md,
-      state: rows[0].state
+      list: {
+        id: rows[0].id,
+        title: rows[0].title,
+        content_md: rows[0].content_md,
+        state: rows[0].state
+      }
     })
   } catch (e) {
     // 释放连接

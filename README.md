@@ -25,3 +25,4 @@ npm run preview
 [腾讯云对象存储](https://cloud.tencent.com/document/product/436/8629)
 [https://github.com/unplugin/unplugin-icons](https://github.com/unplugin/unplugin-icons)
 [图标集](https://icones.js.org/)
+[编辑器](https://github.com/pd4d10/bytemd)
