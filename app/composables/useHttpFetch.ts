@@ -75,24 +75,23 @@ export const noteFetch = (opt: MyFetchOptions) => {
 
 // 文章图片上传腾讯云
 export const cosAuthFetch = (opt: MyFetchOptions) => {
-  // return useHttpFetch('/api/cos/auth', opt)
-  return true
+  return useHttpFetch('/api/cos/auth', opt)
 }
 
-// 获取文章列表
-export const homeNotesFetch = (opt: MyFetchOptions) => {
-  return useHttpFetch('/api/home/notes', opt)
-}
+// // 获取文章列表
+// export const homeNotesFetch = (opt: MyFetchOptions) => {
+//   return useHttpFetch('/api/home/notes', opt)
+// }
 
-// 获取文章详情
-export const noteDetailFetch = (opt: MyFetchOptions) => {
-  return useHttpFetch('/api/home/detail', opt)
-}
-// 上传头像到腾讯云
-export const uploadCosFetch = (opt: MyFetchOptions) => {
-  return useHttpFetch('/api/uploadCos', opt)
-}
-// 修改用户信息
-export const editUserFetch = (opt: MyFetchOptions) => {
-  return useHttpFetch('/api/auth/user', opt)
-}
+// // 获取文章详情
+// export const noteDetailFetch = (opt: MyFetchOptions) => {
+//   return useHttpFetch('/api/home/detail', opt)
+// }
+// // 上传头像到腾讯云
+// export const uploadCosFetch = (opt: MyFetchOptions) => {
+//   return useHttpFetch('/api/uploadCos', opt)
+// }
+// // 修改用户信息
+// export const editUserFetch = (opt: MyFetchOptions) => {
+//   return useHttpFetch('/api/auth/user', opt)
+// }

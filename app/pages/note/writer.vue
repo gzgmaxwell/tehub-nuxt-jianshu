@@ -654,7 +654,7 @@ const uploadImages = async files => {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px;
+      padding: 5px 20px;
       &:hover {
         background-color: #666666;
       }
