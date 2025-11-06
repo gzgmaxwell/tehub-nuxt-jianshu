@@ -11,6 +11,9 @@ importers:
       '@bytemd/plugin-gfm':
         specifier: ^1.22.0
         version: 1.22.0(bytemd@1.22.0)
+      '@bytemd/plugin-highlight':
+        specifier: ^1.22.0
+        version: 1.22.0(bytemd@1.22.0)
       '@bytemd/vue-next':
         specifier: ^1.22.0
         version: 1.22.0(vue@3.5.22)
@@ -29,6 +32,9 @@ importers:
       cos-nodejs-sdk-v5:
         specifier: ^2.15.4
         version: 2.15.4
+      dayjs:
+        specifier: ^1.11.19
+        version: 1.11.19
       dotenv:
         specifier: ^17.2.3
         version: 17.2.3
@@ -233,6 +239,11 @@ packages:
 
   '@bytemd/plugin-gfm@1.22.0':
     resolution: {integrity: sha512-ICmDwK5pCKrsoM2btNUo11R2Cpvaaz8dF/BAVrZ/w7mdY8985f7l8zIc7yX3tO5i3KYVvxBKhTCmerOS4xAcig==}
+    peerDependencies:
+      bytemd: ^1.5.0
+
+  '@bytemd/plugin-highlight@1.22.0':
+    resolution: {integrity: sha512-fMLEvsY8KQrVrtokIWeBFu8/JGGSX0V3Hf6Fhbdn9Q8vsz6u/WuI+wo78xRX7OWhUHpx99UxUcwEy/Hq4+NbpQ==}
     peerDependencies:
       bytemd: ^1.5.0
 
@@ -2276,6 +2287,10 @@ packages:
 
   hastscript@7.2.0:
     resolution: {integrity: sha512-TtYPq24IldU8iKoJQqvZOuhi5CyCQRAbvDOX0x1eW6rsHSxa/1i2CCiptNTotGHJ3VoHRGmqiv6/D3q113ikkw==}
+
+  highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
 
   hookable@5.5.3:
     resolution: {integrity: sha512-Yc+BQe8SvoXH1643Qez1zqLRmbA5rCL+sSmk6TVos0LWVfNIB7PGncdlId77WzLGSIB5KaWgTaNTs2lNVEI6VQ==}
@@ -4482,6 +4497,11 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
+  '@bytemd/plugin-highlight@1.22.0(bytemd@1.22.0)':
+    dependencies:
+      bytemd: 1.22.0
+      highlight.js: 11.11.1
+
   '@bytemd/vue-next@1.22.0(vue@3.5.22)':
     dependencies:
       bytemd: 1.22.0
@@ -6676,6 +6696,8 @@ snapshots:
       hast-util-parse-selector: 3.1.1
       property-information: 6.5.0
       space-separated-tokens: 2.0.2
+
+  highlight.js@11.11.1: {}
 
   hookable@5.5.3: {}
 

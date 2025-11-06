@@ -83,10 +83,10 @@ export const homeNotesFetch = (opt: MyFetchOptions) => {
   return useHttpFetch('/api/home/notes', opt)
 }
 
-// // 获取文章详情
-// export const noteDetailFetch = (opt: MyFetchOptions) => {
-//   return useHttpFetch('/api/home/detail', opt)
-// }
+// 获取文章详情
+export const noteDetailFetch = (opt: MyFetchOptions) => {
+  return useHttpFetch('/api/home/detail', opt)
+}
 // // 上传头像到腾讯云
 // export const uploadCosFetch = (opt: MyFetchOptions) => {
 //   return useHttpFetch('/api/uploadCos', opt)
