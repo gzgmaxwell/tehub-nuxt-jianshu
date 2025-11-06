@@ -78,10 +78,10 @@ export const cosAuthFetch = (opt: MyFetchOptions) => {
   return useHttpFetch('/api/cos/auth', opt)
 }
 
-// // 获取文章列表
-// export const homeNotesFetch = (opt: MyFetchOptions) => {
-//   return useHttpFetch('/api/home/notes', opt)
-// }
+// 获取文章列表
+export const homeNotesFetch = (opt: MyFetchOptions) => {
+  return useHttpFetch('/api/home/notes', opt)
+}
 
 // // 获取文章详情
 // export const noteDetailFetch = (opt: MyFetchOptions) => {

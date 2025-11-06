@@ -18,3 +18,22 @@ export const genTitle = () => {
   let day = ('0' + currentDate.getDate()).slice(-2)
   return year + '-' + month + '-' + day
 }
+
+// 截取文章
+export const trimMarkdown = (content: string, maxLength: number = 200) => {
+  let strippedContent = content.replace(/#|\*|_|`/g, '')
+  if (strippedContent.length > maxLength) {
+    strippedContent = strippedContent.substr(0, maxLength) + '...'
+  }
+  return strippedContent
+}
+
+// 获取文章第一张图片
+export const getFirstImage = (content: string) => {
+  const regex = /!\[.*\]\((.*)\)/
+  const match = content.match(regex)
+  if (match) {
+    return match[1]
+  }
+  return null
+}
