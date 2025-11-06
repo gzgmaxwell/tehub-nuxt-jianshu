@@ -82,7 +82,7 @@
 import { uploadCosFetch } from '~/composables/useHttpFetch'
 
 const user = ref({})
-user.value = useUserInfo().value
+user.value = useUserInfo().value || {}
 const { $message } = useNuxtApp()
 
 useHead({

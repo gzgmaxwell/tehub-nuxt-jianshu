@@ -142,7 +142,9 @@ const go = () => {
 // 退出登录
 const logout = () => {
   const useUserInfoCookie = useCookie('userInfo')
+  const accessTokenCookie = useCookie('accessToken')
   useUserInfoCookie.value = ''
+  accessTokenCookie.value = ''
   window.location.reload()
 }
 const signIn = () => {
