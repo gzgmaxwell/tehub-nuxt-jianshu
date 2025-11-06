@@ -4,6 +4,25 @@ interface MyFetchOptions {
   headers?: Record<string, string>
   [key: string]: any
 }
+
+const getBaseUrl = () => {
+  let baseURL = ''
+  if (process.env.NODE_ENV === 'production') {
+    // 生产环境
+    if (process.server) {
+      // SSR请求内网
+      baseURL = 'http://127.0.0.1:3000/'
+    } else {
+      // baseURL = 'http://jbook.XXX.com/'
+      baseURL = 'https://www.jianshu.com/'
+    }
+  } else {
+    // 本地开发环境
+    baseURL = 'http://127.0.0.1:3000/'
+  }
+  baseURL = 'http://127.0.0.1:3000/'
+  return baseURL
+}
 export const useHttpFetch = (url: string, opt: MyFetchOptions) => {
   const token = useCookie('accessToken')
   // 添加请求头 token
@@ -17,7 +36,7 @@ export const useHttpFetch = (url: string, opt: MyFetchOptions) => {
 
   return useFetch(url, {
     ...opt,
-    baseURL: 'http://localhost:3000/',
+    baseURL: getBaseUrl(),
     onRequest({ request, options }) {
       console.log('🚀 ~ onRequest ~ request:', request)
     },
