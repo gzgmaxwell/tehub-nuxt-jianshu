@@ -28,6 +28,14 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['~/assets/css/global.css'],
   vite: {
+    esbuild: {
+      drop: process.env.NODE_ENV === 'production' ? ['console', 'debugger'] : []
+    },
+    build: {
+      minify: 'esbuild',
+      chunkSizeWarningLimit: 500,
+      cssCodeSplit: true
+    },
     plugins: [
       Components({
         resolvers: [
