@@ -33,12 +33,13 @@ import mysql from 'mysql2'
 // export default connection
 
 export const getDB = () => {
+  const config = useRuntimeConfig()
   return mysql
     .createPool({
-      host: 'localhost',
-      user: 'root',
-      password: '123456',
-      database: 'tehub-nuxt-jianshu',
+      host: config.DB_HOST,
+      user: config.DB_USER,
+      password: config.DB_PASSWORD,
+      database: config.DB_DATABASE,
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0
