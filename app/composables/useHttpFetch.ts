@@ -87,11 +87,11 @@ export const homeNotesFetch = (opt: MyFetchOptions) => {
 export const noteDetailFetch = (opt: MyFetchOptions) => {
   return useHttpFetch('/api/home/detail', opt)
 }
-// // 上传头像到腾讯云
-// export const uploadCosFetch = (opt: MyFetchOptions) => {
-//   return useHttpFetch('/api/uploadCos', opt)
-// }
-// // 修改用户信息
-// export const editUserFetch = (opt: MyFetchOptions) => {
-//   return useHttpFetch('/api/auth/user', opt)
-// }
+// 上传头像到腾讯云
+export const uploadCosFetch = (opt: MyFetchOptions) => {
+  return useHttpFetch('/api/uploadCos', opt)
+}
+// 修改用户信息
+export const editUserFetch = (opt: MyFetchOptions) => {
+  return useHttpFetch('/api/auth/user', opt)
+}
