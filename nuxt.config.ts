@@ -6,10 +6,10 @@ import IconsResolver from 'unplugin-icons/resolver'
 import Icons from 'unplugin-icons/vite'
 
 export default defineNuxtConfig({
-  // devServer: {
-  //   host: '0.0.0.0',
-  //   port: 3000
-  // },
+  devServer: {
+    host: '0.0.0.0',
+    port: 3000
+  },
   runtimeConfig: {
     // 私密
     SecretId: process.env.SECRET_ID,

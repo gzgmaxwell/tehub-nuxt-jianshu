@@ -1,3 +1,5 @@
+import dayjs from 'dayjs'
+
 // 响应数据格式
 export const responseJson = (code: number, msg: string, data: object) => {
   let resp = { code: code, msg: msg, data: data }
@@ -11,12 +13,14 @@ export const getLoginUid = (event: any) => {
 
 // 获取当前时间
 export const genTitle = () => {
-  let currentDate = new Date()
-  let year = currentDate.getFullYear()
-  let month = ('0' + (currentDate.getMonth() + 1)).slice(-2)
-  // getDay 获取星期几
-  let day = ('0' + currentDate.getDate()).slice(-2)
-  return year + '-' + month + '-' + day
+  // let currentDate = new Date()
+  // let year = currentDate.getFullYear()
+  // let month = ('0' + (currentDate.getMonth() + 1)).slice(-2)
+  // // getDay 获取星期几
+  // let day = ('0' + currentDate.getDate()).slice(-2)
+  // return year + '-' + month + '-' + day
+
+  return '文章 ' + dayjs().format('YYYY-MM-DD HH:mm:ss')
 }
 
 // 截取文章

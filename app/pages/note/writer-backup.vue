@@ -13,22 +13,22 @@
           >
             回首页
           </a-button>
-          <div @click="handleOpenBookModal" class="add-notebook">
+          <div @click="showModal" class="add-notebook">
             <i-mdi-plus-thick />
             新建文集
           </div>
-          <div class="create-notebook" v-if="showCreateBook">
+          <div class="create-notebook" v-if="showCreateNb">
             <a-input
-              v-model:value="state.bookName"
+              v-model:value="notebookName"
               class="notebook-input"
               placeholder="请输入文集名称..."
             ></a-input>
             <div class="action-box">
-              <a-button @click="handleAddBook" size="small" shape="round" ghost>
+              <a-button @click="addNotebook" size="small" shape="round" ghost>
                 提交
               </a-button>
               <a-button
-                @click="handleCloseBookModal"
+                @click="showCreateNb = false"
                 style="color: #9a9a9a"
                 type="text"
               >
@@ -39,18 +39,18 @@
         </div>
         <div class="notebook-center">
           <template
-            v-if="bookList"
-            v-for="(bItem, bIndex) in bookList"
-            :key="bItem.id"
+            v-if="notebookData.data"
+            v-for="(notebookItem, notebookIndex) in notebookData.data.list"
+            :key="notebookItem.id"
           >
             <div
               class="notebook-c-item"
-              :class="curBookIndex === bIndex ? 'active' : ''"
-              @click="handleSelectBook(bItem, bIndex)"
+              :class="currentNotebookIndex === notebookIndex ? 'active' : ''"
+              @click="selectNotebook(notebookItem, notebookIndex)"
             >
-              <span>{{ bItem.name }}</span>
+              <span>{{ notebookItem.name }}</span>
               <a-dropdown
-                v-if="curBookIndex === bIndex"
+                v-if="currentNotebookIndex === notebookIndex"
                 :trigger="['click']"
                 overlayClassName="overlayClassName"
               >
@@ -59,13 +59,13 @@
                 </a>
                 <template #overlay>
                   <a-menu>
-                    <a-menu-item @click="handleOpenEditBookModal(bItem)">
+                    <a-menu-item @click="editNotebookModal(notebookItem)">
                       <a-row type="flex" justify="center" align="middle">
                         <i-ep-edit style="margin-right: 5px" />
                         修改文集
                       </a-row>
                     </a-menu-item>
-                    <a-menu-item @click="handleDelBook(bItem)">
+                    <a-menu-item @click="deleteNoteBook(notebookItem)">
                       <a-row type="flex" justify="center" align="middle">
                         <i-ep-delete style="margin-right: 5px" />
                         删除文集
@@ -81,25 +81,25 @@
     </a-col>
     <a-col :span="5" class="note-writer-list">
       <!--文章列表-->
-      <div class="create" @click="handleAddNote">
+      <div class="create" @click="createNote">
         <i-ep-circle-plus-filled />
         新建文章
       </div>
       <div class="note-create">
         <template
-          v-if="noteList"
-          v-for="(nItem, nIndex) in noteList"
-          :key="nItem.id"
+          v-if="notesData"
+          v-for="(noteItem, noteIndex) in notesData"
+          :key="noteItem.id"
         >
           <div
             class="note-create-item"
-            :class="curNoteIndex === nIndex ? 'active' : ''"
-            @click="handleSelectNote(nItem, nIndex)"
+            :class="currentNoteIndex === noteIndex ? 'active' : ''"
+            @click="selectNote(noteItem, noteIndex)"
           >
             <i-ph-file-text-fill class="text-icon" />
-            <span>{{ nItem.title }}</span>
+            <span>{{ noteItem.title }}</span>
             <a-dropdown
-              v-if="curNoteIndex === nIndex"
+              v-if="currentNoteIndex === noteIndex"
               :trigger="['click']"
               overlayClassName="overlayClassName"
             >
@@ -120,7 +120,7 @@
                       移动文章
                     </a-row>
                   </a-menu-item>
-                  <a-menu-item @click="handleOpenDelNoteModal(nItem)">
+                  <a-menu-item @click="deleteNote(noteItem)">
                     <a-row type="flex" justify="center" align="middle">
                       <i-ep-delete style="margin-right: 5px" />
                       删除文章
@@ -141,12 +141,12 @@
             @input="handleInput"
             style="font-size: 30px"
             :bordered="false"
-            v-model:value="noteInfo.title"
+            v-model:value="noteData.title"
           ></a-input>
         </div>
         <Editor
           ref="editor"
-          v-model:value="noteInfo.content_md"
+          v-model:value="noteData.content_md"
           :plugins="plugins"
           @change="handleChange"
           :uploadImages="uploadImages"
@@ -157,15 +157,15 @@
 
   <!--修改文集弹框-->
   <a-modal
-    v-model:open="editBookVisible"
+    v-model:open="editVisible"
     width="25%"
     title="修改文集"
     okText="提交"
     cancelText="取消"
-    @ok="handleEditBookSave"
+    @ok="editNotebookHandle"
   >
     <a-input
-      v-model:value="targetBook.name"
+      v-model:value="cur_notebook.name"
       style="height: 40px"
       placeholder="输入文集名称"
     ></a-input>
@@ -173,15 +173,15 @@
 
   <!--删除文集弹框-->
   <a-modal
-    v-model:open="deleteBookVisible"
+    v-model:open="deleteVisible"
     width="20%"
     okText="提交"
     cancelText="取消"
-    @ok="handleDelBookSubmit"
+    @ok="deleteNotebookHandle"
   >
     <div>
       <p style="margin-top: 30px">
-        确认删除文集《{{ targetBook.name }}》，文章将被移动到回收站。
+        确认删除文集《{{ delete_notebook.name }}》，文章将被移动到回收站。
       </p>
     </div>
   </a-modal>
@@ -192,11 +192,11 @@
     width="20%"
     okText="提交"
     cancelText="取消"
-    @ok="handleDelNoteSubmit"
+    @ok="deleteNoteHandle"
   >
     <div>
       <p style="margin-top: 30px">
-        确认删除文章《{{ targetNote.title }}》，文章将被移动到回收站。
+        确认删除文章《{{ current_note.title }}》，文章将被移动到回收站。
       </p>
     </div>
   </a-modal>
@@ -212,138 +212,17 @@ import {
   noteFetch,
   cosAuthFetch
 } from '~/composables/useHttpFetch'
-import { debounce, now } from 'lodash-es'
+import { debounce } from 'lodash-es'
 import COS from 'cos-js-sdk-v5'
 import { useUserInfo } from '~/composables/state'
-import { getUUID, getTimestamp } from '~/composables/useHelper'
+import { getUUID } from '~/composables/useHelper'
 const plugins = ref([
   gfm()
   // Add more plugins here
 ])
-// console.log(now())
+
 const { $message } = useNuxtApp()
 const editor = ref(null)
-
-const state = reactive({
-  // 左侧文集数据
-  bookList: [],
-  curBookIndex: 0,
-
-  // 中间文章列表
-  noteList: [],
-  curNoteIndex: 0,
-  noteListRefresh: null,
-
-  // 是否加载文章
-  isLoadNote: false,
-
-  // 右侧文章数据
-  noteInfo: {},
-
-  // 新建文集
-  bookName: '',
-  showCreateBook: false,
-
-  // 修改文集
-  targetBook: {},
-  editBookVisible: false,
-  deleteBookVisible: false,
-
-  // 删除文章
-  targetNote: {},
-  deleteNoteVisible: false
-})
-
-const curBookId = computed(() => {
-  if (state.bookList.length > 0) {
-    return state.bookList[state.curBookIndex]?.id || ''
-  }
-  return ''
-})
-
-const curNoteId = computed(() => {
-  if (state.noteList.length > 0) {
-    return state.noteList[state.curNoteIndex]?.id || ''
-  }
-  return ''
-})
-
-const fetchNotesList = async isServer => {
-  const { data } = await notesFetch({
-    method: 'GET',
-    server: isServer,
-    key: 'notesFetch_' + getTimestamp(),
-    params: {
-      notebookId: curBookId.value
-    }
-  })
-
-  if (data.value.code === 1) {
-    throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
-  }
-
-  state.noteList = data.value.data.list
-
-  if (isServer) {
-    state.isLoadNote = true
-    // 默认选中第一个文章
-    if (state.noteList.length > 0) {
-      state.curNoteIndex = 0
-      fetchNoteInfo(true)
-    }
-  }
-}
-
-const fetchNoteInfo = async isServer => {
-  const { data } = await noteFetch({
-    method: 'GET',
-    params: {
-      noteId: curNoteId.value
-    },
-    server: isServer,
-    key: 'getNote_' + getTimestamp()
-  })
-  if (data.value.code === 1) {
-    throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
-  }
-  console.log(data.value.data.list)
-  state.noteInfo = data.value.data.list
-  if (state.isLoadNote) {
-    changeState()
-  }
-}
-
-const { data: bookListData, refresh: bookListRefresh } = await notebookFetch({
-  method: 'GET',
-  server: true,
-  key: 'notebookFetch'
-})
-
-if (bookListData.value.code === 1) {
-  throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
-}
-
-// 监听 bookList 变化，自动更新选中状态
-watch(
-  bookListData,
-  newVal => {
-    if (newVal?.code === 0 && newVal.data.list) {
-      state.bookList = newVal.data.list || []
-
-      // 确保 curBookIndex 不超出范围
-      if (state.curBookIndex >= state.bookList.length) {
-        state.curBookIndex = Math.max(0, state.bookList.length - 1)
-      }
-
-      if (state.bookList.length > 0) {
-        // 获取该文集下的文章
-        fetchNotesList(true)
-      }
-    }
-  },
-  { immediate: true, deep: true }
-)
-
 const goHome = () => {
   navigateTo('/')
 }
@@ -351,7 +230,7 @@ const goHome = () => {
 // 改变文章状态
 const changeState = () => {
   let text = ''
-  switch (state.noteInfo.state) {
+  switch (noteData.value.state) {
     case 1:
       text = '立即发布'
       break
@@ -377,7 +256,7 @@ const changeState = () => {
             type: 'action',
             click(ctx) {
               console.log('22222')
-              state.noteInfo.state = 2
+              noteData.value.state = 2
               notePush()
             }
           }
@@ -386,189 +265,274 @@ const changeState = () => {
     }
   ]
 }
-
-// 选中文集
-const handleSelectBook = (item, index) => {
-  state.curBookIndex = index
-  state.noteList = []
-  state.noteInfo = {}
-  state.noteInfo.content_md = ''
-  state.curNoteIndex = 0
-  fetchNotesList(true)
-}
-
-// 新建文集
-const handleOpenBookModal = () => {
-  state.showCreateBook = true
-}
-const handleCloseBookModal = () => {
-  state.showCreateBook = false
-}
-
-const handleAddBook = async () => {
-  const { data } = await notebookFetch({
-    method: 'POST',
-    body: {
-      name: state.bookName
-    },
-    server: false
+onMounted(() => {
+  console.log((editor.value = 'asdjkaljaksd'))
+})
+//获取文集下面的文章
+const notesData = ref([])
+const getNotes = async (isServer, notebookId) => {
+  const { data } = await notesFetch({
+    method: 'GET',
+    server: isServer,
+    key: 'notesFetch',
+    params: {
+      notebookId: notebookId
+    }
   })
 
   if (data.value.code === 1) {
-    $message.error(data.value.msg)
-    return
+    throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
   }
 
-  bookListRefresh()
+  notesData.value = data.value.data.list
+  console.log('🚀 ~ getNotes ~ notesData:', isServer, notesData)
 
-  state.bookName = ''
-  state.noteList = []
-  state.noteInfo = {}
-  state.showCreateBook = false
+  if (isServer) {
+    isLoad.value = true
+    if (notesData.value.length) {
+      getNote(true, notesData.value[0].id)
+    }
+  }
+  // console.log('notesData',notesData.value)
+}
+// 获取文集
+const currentNotebookIndex = ref(0)
+// 当前文集id
+const currentNotebookId = ref(0)
+const { data: notebookData, refresh: notebookRefresh } = await notebookFetch({
+  method: 'GET',
+  server: true,
+  key: 'notebookFetch'
+})
+if (notebookData.value.code === 1) {
+  throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
+}
+if (notebookData.value.data && notebookData.value.data.list.length > 0) {
+  const firstNotebook = notebookData.value.data.list[0]
+  currentNotebookId.value = firstNotebook.id
+  getNotes(true, firstNotebook.id)
 }
 
-// 修改文集
-const handleOpenEditBookModal = item => {
-  state.targetBook = item
-  state.editBookVisible = true
+//选中文集
+const selectNotebook = (item, index) => {
+  currentNotebookIndex.value = index
+  currentNotebookId.value = item.id
+  notesData.value = []
+  noteData.value = {}
+  noteData.value.content_md = ''
+  currentNoteIndex.value = 0
+  getNotes(true, item.id)
 }
 
-const handleEditBookSave = e => {
+// 新建文集
+const notebookName = ref('')
+const showCreateNb = ref(false)
+const addNotebook = () => {
+  notebookFetch({
+    method: 'POST',
+    body: {
+      name: notebookName.value
+    },
+    server: false
+  }).then(({ data }) => {
+    if (data.value.code === 1) {
+      $message.error(data.value.msg)
+      return
+    }
+
+    notebookRefresh()
+    notesData.value = []
+    noteData.value = {}
+    showCreateNb.value = false
+  })
+}
+const showModal = () => {
+  showCreateNb.value = !showCreateNb.value
+}
+
+//修改文集
+const editVisible = ref(false)
+const cur_notebook = ref({})
+const editNotebookModal = item => {
+  cur_notebook.value = item
+  editVisible.value = true
+}
+
+const editNotebookHandle = e => {
   notebookFetch({
     method: 'PUT',
     body: {
-      id: state.targetBook.id,
-      name: state.targetBook.name
+      id: cur_notebook.value.id,
+      name: cur_notebook.value.name
     },
-    server: false
-    // key: 'editNotebook'
+    server: false,
+    key: 'editNotebook'
   }).then(({ data }) => {
     if (data.value.code === 1) {
       $message.error(data.value.msg)
       return
     }
-    state.targetBook = {}
-    state.editBookVisible = false
-
-    bookListRefresh()
+    notebookRefresh()
+    cur_notebook.value = {}
+    editVisible.value = false
   })
 }
 
-// 删除文集
-const handleDelBook = item => {
-  state.targetBook = item
-  state.deleteBookVisible = true
+//删除文集
+const deleteVisible = ref(false)
+const delete_notebook = ref({})
+const deleteNoteBook = item => {
+  delete_notebook.value = item
+  deleteVisible.value = true
 }
-const handleDelBookSubmit = () => {
+const deleteNotebookHandle = () => {
   notebookFetch({
     method: 'DELETE',
     body: {
-      id: state.targetBook.id
+      id: delete_notebook.value.id
     },
     server: false,
-    key: 'deleteNotebook_' + getTimestamp()
+    key: 'deleteNotebook'
   }).then(({ data }) => {
     if (data.value.code === 1) {
       $message.error(data.value.msg)
       return
     }
-    state.targetBook = {}
-    state.deleteBookVisible = false
-
-    bookListRefresh()
+    notebookRefresh()
+    deleteVisible.value = false
   })
 }
 
-// 新建文章
-const handleAddNote = () => {
+//当前文章索引
+const currentNoteIndex = ref(0)
+//选中文章
+//是否加载文章
+const isLoad = ref(false)
+const selectNote = (item, index) => {
+  currentNoteIndex.value = index
+  isLoad.value = true
+  getNote(false, item.id)
+}
+//新建文章
+const createNote = () => {
   noteFetch({
     method: 'POST',
     body: {
-      notebookId: curBookId.value
+      notebookId: currentNotebookId.value
     },
     server: false,
-    key: 'createNote_' + getTimestamp()
+    key: 'createNote'
   }).then(({ data }) => {
     if (data.value.code === 1) {
       $message.error(data.value.msg)
       return
     }
-    fetchNotesList(true)
+    getNotes(false, currentNotebookId.value)
   })
 }
-
-const handleSelectNote = (item, index) => {
-  state.curNoteIndex = index
-  state.isLoadNote = true
-  fetchNoteInfo(true)
+//删除文章
+const deleteNoteVisible = ref(false)
+const current_note = ref({})
+const deleteNote = item => {
+  current_note.value = item
+  deleteNoteVisible.value = true
 }
 
-// 删除文章
-const handleOpenDelNoteModal = item => {
-  state.targetNote = item
-  state.deleteNoteVisible = true
-}
-
-const handleDelNoteSubmit = () => {
+const deleteNoteHandle = () => {
   noteFetch({
     method: 'DELETE',
     body: {
-      noteId: state.targetNote.id
+      noteId: current_note.value.id
     },
     server: false,
-    key: 'deleteNote_' + getTimestamp()
+    key: 'deleteNote'
   }).then(({ data }) => {
     if (data.value.code === 1) {
       $message.error(data.value.msg)
       return
     }
     $message.info('删除成功！')
-    state.deleteNoteVisible = false
-    fetchNotesList(true)
+    deleteNoteVisible.value = false
+    getNotes(false, currentNotebookId.value)
   })
 }
+
+//根据文章id获取文章内容
+const noteData = ref({})
+const getNote = async (isServer, noteId) => {
+  const { data } = await noteFetch({
+    method: 'GET',
+    params: {
+      noteId: noteId
+    },
+    server: isServer,
+    key: 'getNote'
+  })
+  if (data.value.code === 1) {
+    throw createError({ statusCode: 500, statusMessage: '服务器报错！' })
+  }
+  noteData.value = data.value.data.list
+  console.log('noteData', noteData.value)
+  changeState()
+}
+
+//文章操作
+//发布文章
 
 const notePush = () => {
   noteFetch({
     method: 'PUT',
     body: {
-      noteId: state.noteInfo.id,
-      title: state.noteInfo.title,
-      content_md: state.noteInfo.content_md,
-      state: state.noteInfo.state
+      noteId: noteData.value.id,
+      title: noteData.value.title,
+      content_md: noteData.value.content_md,
+      state: noteData.value.state
     },
     server: false,
-    key: 'notePush_' + getTimestamp()
+    key: 'notePush'
   }).then(({ data }) => {
     if (data.value.code === 1) {
       $message.error(data.value.msg)
       return
     }
-    if (state.noteInfo.state === 2) {
+    if (noteData.value.state === 2) {
       $message.info('发布成功！')
     }
 
-    fetchNotesList(true)
+    getNotes(false, currentNotebookId.value)
     changeState()
   })
 }
 
+//防抖函数
+// const debounce = (func,delay) => {
+//   let timer = null
+//   return function () {
+//     if (timer) {
+//       clearTimeout(timer)
+//     }
+//     timer = setTimeout(()=>{
+//       func.apply(this,arguments)
+//     },delay)
+//   }
+// }
+
 const save = () => {
-  if (state.isLoadNote) {
-    state.isLoadNote = false
+  if (isLoad.value) {
+    isLoad.value = false
     return
   }
-  state.noteInfo.state = state.noteInfo.state === 2 ? 3 : 1
+  noteData.value.state = noteData.value.state === 2 ? 3 : 1
   notePush()
 }
 
 const saveContent = debounce(e => {
-  if (state.isLoadNote) {
-    state.isLoadNote = false
+  if (isLoad.value) {
+    isLoad.value = false
     return
   }
-  state.noteInfo.content_md = e
-  state.noteInfo.state = state.noteInfo.state === 2 ? 3 : 1
+  noteData.value.content_md = e
+  noteData.value.state = noteData.value.state === 2 ? 3 : 1
   notePush()
 }, 1000)
 
@@ -642,20 +606,6 @@ const uploadImages = async files => {
     })
   )
 }
-
-const {
-  bookList,
-  curBookIndex,
-  showCreateBook,
-  noteList,
-  curNoteIndex,
-  noteInfo,
-  targetBook,
-  editBookVisible,
-  deleteBookVisible,
-  targetNote,
-  deleteNoteVisible
-} = toRefs(state)
 </script>
 
 <style lang="scss" scoped>
@@ -743,7 +693,6 @@ const {
       padding: 20px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
       cursor: pointer;
       .text-icon {
         color: #bebebe;
