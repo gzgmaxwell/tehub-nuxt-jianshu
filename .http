@@ -2,4 +2,4 @@
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
-{"nickname":"andy","phone":"15884483751","password":"666666"}
+{"nickname":"andy","phone":"15884483750","password":"666666"}
