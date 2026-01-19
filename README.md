@@ -28,3 +28,13 @@ npm run preview
 [编辑器](https://github.com/pd4d10/bytemd)
 [qcloud-cos-sts-sdk](https://github.com/tencentyun/qcloud-cos-sts-sdk/blob/master/nodejs/demo/demo.js)
 [JavaScript SDK](https://cloud.tencent.com/document/product/436/11459)
+
+## 数据库操作流程
+安装docker desktop
+// 此语句在window 中 用window Powershell 打开后切换路径到非C:\WINDOWS\system32 路径下执行或者使用绝对路径
+docker run -d --name mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 -v "${PWD}/db:/var/lib/mysql" mysql:8.0; 
+docker exec -it mysql mysql -uroot -p123456
+CREATE DATABASE jbook CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+SHOW DATABASES; //显示数据库
+use jbook
+执行建表语句
