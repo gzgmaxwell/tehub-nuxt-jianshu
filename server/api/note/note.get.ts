@@ -15,24 +15,28 @@ export default defineEventHandler(async event => {
   }
 
   // 获取数据
-  const params = await getQuery(event)
-  console.log('params', params)
-  // 校验数据joi
-  const schema = Joi.object({
-    noteId: Joi.number().required()
-  })
-  try {
-    const value = await schema.validateAsync(params)
-  } catch (err) {
-    return responseJson(1, '参数错误', {})
-  }
+  const body:any = await getQuery(event)
+  console.log('body', body)
+  // // 校验数据joi
+  // const schema = Joi.object({
+  //   noteId: Joi.number().required()
+  // })
+  // try {
+  //   const value = await schema.validateAsync(body)
+  // } catch (err) {
+  //   return responseJson(1, '参数错误', {})
+  // }
 
   const con = getDB()
   try {
     //获取用户文集
-    const [rows] = await con.query(
-      'SELECT * FROM `notes` WHERE `uid`=? AND `id`=?',
-      [uid, params.noteId]
+    // const [rows] = await con.query(
+    //   'SELECT * FROM `notes` WHERE `uid`=? AND `id`=?',
+    //   [uid, body.noteId]
+    // )
+     const [rows] = await con.query(
+      'SELECT * FROM `notes` WHERE `uid`=? LIMIT ? OFFSET ?',
+      [uid, Number(body.pageSize), (body.page - 1) * body.pageSize]
     )
     // 释放连接
     await con.end()

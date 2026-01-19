@@ -2,4 +2,98 @@
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
 
-{"nickname":"andy","phone":"15884483750","password":"666666"}
+{
+  "nickname": "andy",
+  "phone": "15884483750",
+  "password": "666666"
+}
+
+
+### 分隔符，用于分隔多个请求
+POST http://localhost:3000/api/auth/login
+Content-Type: application/json
+
+{
+  "phone": "15884483750",
+  "password": "123456"
+}
+
+
+### 分隔符，用于分隔多个请求
+POST http://localhost:3000/api/note/notebook
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+
+{
+  "name": "创建文集喔"
+}
+
+
+### 分隔符，用于分隔多个请求
+PUT http://localhost:3000/api/note/notebook
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+
+{
+  "id": 1,
+  "name": "修改创建文集喔"
+}
+
+
+### 分隔符，用于分隔多个请求
+GET http://localhost:3000/api/note/notebook
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+
+
+### 分隔符，用于分隔多个请求
+DELETE http://localhost:3000/api/note/notebook
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+
+{
+  "id": 1
+}
+
+
+### 分隔符，用于分隔多个请求
+GET http://localhost:3000/api/notebooks
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+
+
+### 分隔符，用于分隔多个请求
+POST http://localhost:3000/api/note/note
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+
+{
+  "notebookId": 2
+}
+
+
+### 分隔符，用于分隔多个请求
+PUT http://localhost:3000/api/note/note
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDk5MDksImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODA2MzA5fQ.oGrWt2RRVPKbA6Un2Sl0tQ3OGzvxge2pNNRXiiosNIA
+
+{
+  "noteId": 1,
+  "title": "学习nuxt",
+  "content_md": "一起来学习",
+  "state": 2
+}
+
+### 分隔符，用于分隔多个请求
+GET http://localhost:3000/api/note/note?page=1&pageSize=10
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDk5MDksImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODA2MzA5fQ.oGrWt2RRVPKbA6Un2Sl0tQ3OGzvxge2pNNRXiiosNIA
+
