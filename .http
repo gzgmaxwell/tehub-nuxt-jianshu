@@ -1,3 +1,4 @@
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4NzYyNzAsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODcyNjcwfQ.W074iBxy7qrpu7Om8H_w8b-ebr11va_VB7R0T0Hmgr0
 ### 分隔符，用于分隔多个请求
 POST http://localhost:3000/api/auth/register
 Content-Type: application/json
@@ -23,7 +24,7 @@ Content-Type: application/json
 POST http://localhost:3000/api/note/notebook
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+Authorization: Bearer {{token}}
 
 {
   "name": "创建文集喔"
@@ -34,7 +35,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyM
 PUT http://localhost:3000/api/note/notebook
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+Authorization: Bearer {{token}}
 
 {
   "id": 1,
@@ -46,14 +47,13 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyM
 GET http://localhost:3000/api/note/notebook
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
-
+Authorization: Bearer {{token}}
 
 ### 分隔符，用于分隔多个请求
 DELETE http://localhost:3000/api/note/notebook
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+Authorization: Bearer {{token}}
 
 {
   "id": 1
@@ -64,17 +64,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyM
 GET http://localhost:3000/api/notebooks
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
-
-
+Authorization: Bearer {{token}}
 ### 分隔符，用于分隔多个请求
 POST http://localhost:3000/api/note/note
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyMjQsImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODAyNjI0fQ.gUV_vGZDSJYSXEYrBIv2upeIkxtTNuEpquvv0n8HTCU
+Authorization: Bearer {{token}}
 
 {
-  "notebookId": 2
+  "notebookId": 7
 }
 
 
@@ -82,10 +80,10 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDYyM
 PUT http://localhost:3000/api/note/note
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDk5MDksImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODA2MzA5fQ.oGrWt2RRVPKbA6Un2Sl0tQ3OGzvxge2pNNRXiiosNIA
+Authorization: Bearer {{token}}
 
 {
-  "noteId": 1,
+  "noteId": 2,
   "title": "学习nuxt",
   "content_md": "一起来学习",
   "state": 2
@@ -95,5 +93,20 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDk5M
 GET http://localhost:3000/api/note/note?page=1&pageSize=10
 Accept: application/json
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3Njg4MDk5MDksImRhdGEiOnsiZGF0YSI6eyJ1aWQiOjR9fSwiaWF0IjoxNzY4ODA2MzA5fQ.oGrWt2RRVPKbA6Un2Sl0tQ3OGzvxge2pNNRXiiosNIA
+Authorization: Bearer {{token}}
 
+### 分隔符，用于分隔多个请求
+DELETE http://localhost:3000/api/note/note
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "noteId": 6
+}
+
+### 分隔符，用于分隔多个请求 //***此接口服务未实现位于第五章最后一节课
+GET http://localhost:3000/api/notes?page=1&pageSize=15
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer {{token}}
